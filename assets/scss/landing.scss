@@ -1,0 +1,55 @@
+@import 'variables';
+
+.hero {
+    height: 100vh;
+    background-image: url('../img/barbecue-background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    .navbar-dark .navbar-nav .nav-link {
+        color: $white;
+    }
+
+    .bg-dark {
+        background-color: rgba(0, 0, 0, 0.8) !important;
+    }
+
+    .hero-container {
+        height: calc(100% - 56px);
+        display: flex;
+        align-items: center;
+        
+        h1 {
+            color: $white;
+        }
+
+        input {
+            font-size: 1.5rem;
+            padding: 1.5rem;
+            border: none;
+            border-radius: 0;
+
+            &::placeholder {
+                color: $gray-500;
+                font-style: italic;
+            }
+
+            &:focus {
+                box-shadow: none;
+            }
+        }
+
+        button {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+    }
+    
+    .hero-container .container-fluid {
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .row {
+        margin: 2rem 0;
+    }
+}
