@@ -1,6 +1,13 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
+{% if rents is empty %}
+<div class="container text-center">
+    <div class="alert alert-info" role="alert">
+        No has rentado ninguna barbacoa aún.
+    </div>
+</div>
+{% endif %}
 <div class="row my-3 justify-content-center">
     {% for rent in rents %}
     <div class="col-8 {% if not loop.first%} mt-4 {% endif %}">
