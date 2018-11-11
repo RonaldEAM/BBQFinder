@@ -12,14 +12,17 @@
                 <div class="col-6">
                     <h1>¡Encuentra la barbacoa que</h1>
                     <h1>deseas rentar cerca de ti!</h1>
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Ingresa tu ZIP Code">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" type="button">
-                                <i class="fas fa-search"></i>
-                            </button>
+                    <form action="{{ path('barbecue_check') }}" action="get">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" name="country" placeholder="Ingresa tu País" required>
+                            <input type="text" class="form-control" name="zipCode" placeholder="Ingresa tu ZIP Code" required>
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>

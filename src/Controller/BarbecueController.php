@@ -69,6 +69,17 @@ class BarbecueController extends AbstractController
     }
 
     /**
+     * @Route("/barbecues/check", name="barbecue_check")
+     */
+    public function checkBarbecues(Request $request)
+    {
+        $country = $request->query->get('country');
+        $zipCode = $request->query->get('zipCode');
+
+        return $this->findBarbecues($country, $zipCode);
+    }
+
+    /**
      * @Route("/barbecue/{id}", name="barbecue_rent")
      */
     public function rentBarbecue(Request $request, string $id)
