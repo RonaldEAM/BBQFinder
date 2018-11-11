@@ -16,7 +16,9 @@
     },
     "dependencies": {
         "bootstrap": "^4.1.3",
+        "bootstrap-fileinput": "^4.5.1",
         "jquery": "^3.3.1",
-        "popper.js": "^1.14.5"
+        "popper.js": "^1.14.5",
+        "tags-input": "^1.1.1"
     }
 }

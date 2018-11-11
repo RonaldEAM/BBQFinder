@@ -1,0 +1,119 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Publica una barbacoa para rentar</h5>
+                <form name="barbecue" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="barbecue[_token]" value="{{ csrf_token('barbecue_token') }}" />
+                    <div class="form-group">
+                        <label for="model">Modelo:</label>
+                        <input id="model" type="text" name="barbecue[model]" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="properties">Propiedades básicas:</label>
+                        <input id="properties" type="tags" class="form-control">
+                        <div id="hidden-properties"></div>
+                        <small class="form-text text-muted">Separa con una coma las propiedades.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="picture">Elige una foto:</label>
+                        <div class="file-loading">
+                            <input id="picture" type="file" name="barbecue[pictureFile][file]" accept="image/*">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Descripción:</label>
+                        <textarea class="form-control" name="barbecue[description]" id="description" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Ubicación de tu barbacoa:</label>
+                        <div id="map"></div>
+                        <input type="hidden" name="barbecue[locationLat]" id="input-lat">
+                        <input type="hidden" name="barbecue[locationLng]" id="input-lng">
+                        <input type="hidden" name="barbecue[zipCode]" value="{{ zipCode }}" id="zip-code">
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block stylesheets %}
+{{ encore_entry_link_tags('barbecue-publish') }}
+{% endblock %}
+
+{% block javascripts %}
+{{ encore_entry_script_tags('barbecue-publish') }}
+<script>
+    function initMap() {
+        var geocoder = new google.maps.Geocoder();
+
+        var country = '{{ country }}';
+        var zipCode = '{{ zipCode }}';
+        var address = country + ' zip code ' + zipCode;
+
+        geocoder.geocode({ 'address': address }, function(results, status) {
+            if (status == 'OK') {
+                setUpLocation(results[0].geometry.location);
+            } else {
+                console.log(status);
+            }
+        });
+    }
+
+    function setUpLocation(location) {
+        var inputLat = document.getElementById('input-lat');
+        var inputLng = document.getElementById('input-lng');
+        
+        inputLat.value = location.lat();
+        inputLng.value = location.lng();
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 15,
+            center: location
+        });
+
+        var marker = new google.maps.Marker({
+            position: location,
+            map: map,
+            title: 'Click para ubicar la barbacoa'
+        });
+
+        map.addListener('click', function(e) {
+            marker.setPosition(e.latLng);
+            setLatLng(e.latLng);
+            setZipCode(e.latLng);
+        });
+    }
+
+    function setLatLng(latLng) {
+        var inputLat = document.getElementById('input-lat');
+        var inputLng = document.getElementById('input-lng');
+        
+        inputLat.value = latLng.lat();
+        inputLng.value = latLng.lng();
+    }
+
+    function setZipCode(latLng) {
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ 'location': latLng }, function(results, status) {
+            if (status === 'OK') {
+                var address = results[0].address_components;
+                var inputZipCode = document.getElementById('zip-code');
+                inputZipCode.value = address[address.length - 1].long_name;
+            } else {
+                console.log(status);
+            }
+        });
+    }
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key={{ maps_api_key }}&callback=initMap">
+</script>
+{% endblock %}

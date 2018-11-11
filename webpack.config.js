@@ -18,6 +18,8 @@ Encore
      * and one CSS file (e.g. app.css) if you JavaScript imports CSS.
      */
     .addEntry('app', './assets/js/app.js')
+    .addEntry('barbecue-publish', './assets/js/barbecue-publish.js')
+    .addEntry('barbecue-find', './assets/js/barbecue-find.js')
     .addStyleEntry('landing', './assets/scss/landing.scss')
     //.addEntry('page2', './assets/js/page2.js')
 

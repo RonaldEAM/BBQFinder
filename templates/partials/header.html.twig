@@ -11,6 +11,9 @@
             <ul class="navbar-nav ml-auto">
                 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                     <li class="nav-item">
+                        <a href="{{ path('barbecue_publish') }}" class="btn btn-outline-light">Publica una barbacoa</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ path('fos_user_security_logout') }}">
                             Cerrar sesión
                         </a>
