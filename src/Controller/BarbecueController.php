@@ -40,7 +40,7 @@ class BarbecueController extends AbstractController
 
             $this->addFlash('success', 'Barbacoa publicada exitosamente.');
 
-            $this->redirectToRoute('barbecue_find', [
+            return $this->redirectToRoute('barbecue_find', [
                 'country' => $this->getUser()->getCountry(),
                 'zipCode' => $this->getUser()->getZipCode(),
             ]);
@@ -90,7 +90,7 @@ class BarbecueController extends AbstractController
 
             $this->addFlash('success', 'Barbacoa rentada exitosamente.');
 
-            $this->redirectToRoute('rent_history');
+            return $this->redirectToRoute('rent_history');
         }
 
         return $this->render('barbecue-rent.html.twig', [
