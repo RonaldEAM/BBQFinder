@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use DateTime;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\RentRepository")
@@ -36,6 +37,7 @@ class Rent
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\GreaterThan(value="today", message="La fecha debe ser mayor que {{ compared_value }}.")
      * @var DateTime
      */
     protected $date;

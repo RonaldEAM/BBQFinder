@@ -10,23 +10,23 @@
                     <input type="hidden" name="barbecue[_token]" value="{{ csrf_token('barbecue_token') }}" />
                     <div class="form-group">
                         <label for="model">Modelo:</label>
-                        <input id="model" type="text" name="barbecue[model]" class="form-control">
+                        <input id="model" type="text" name="barbecue[model]" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label for="properties">Propiedades básicas:</label>
-                        <input id="properties" type="tags" class="form-control">
+                        <input id="properties" type="tags" class="form-control" required>
                         <div id="hidden-properties"></div>
                         <small class="form-text text-muted">Separa con una coma las propiedades.</small>
                     </div>
                     <div class="form-group">
                         <label for="picture">Elige una foto:</label>
                         <div class="file-loading">
-                            <input id="picture" type="file" name="barbecue[pictureFile][file]" accept="image/*">
+                            <input id="picture" type="file" name="barbecue[pictureFile][file]" accept="image/*" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="description">Descripción:</label>
-                        <textarea class="form-control" name="barbecue[description]" id="description" rows="3"></textarea>
+                        <textarea class="form-control" name="barbecue[description]" id="description" rows="3" required></textarea>
                     </div>
                     <div class="form-group">
                         <label for="description">Ubicación de tu barbacoa:</label>
