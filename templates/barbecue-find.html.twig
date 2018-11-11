@@ -33,6 +33,10 @@
                 </div>
                 {% if barbecue.owner != app.user %}
                 <a href="{{ path('barbecue_rent', {'id': barbecue.id}) }}" class="btn btn-primary float-right">Rentar</a>
+                {% else %}
+                <div class="text-center mt-1">
+                    <span class="text-muted">Eres el dueño de esta barbacoa</span>
+                </div>
                 {% endif %}
             </div>
         </div>
