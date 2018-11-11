@@ -21,6 +21,7 @@ Encore
     .addEntry('barbecue-publish', './assets/js/barbecue-publish.js')
     .addEntry('barbecue-find', './assets/js/barbecue-find.js')
     .addStyleEntry('landing', './assets/scss/landing.scss')
+    .addStyleEntry('rent-history', './assets/scss/rent-history.scss')
     //.addEntry('page2', './assets/js/page2.js')
 
     // will require an extra script tag for runtime.js

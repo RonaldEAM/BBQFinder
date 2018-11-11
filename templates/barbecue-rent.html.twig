@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+<div class="row my-3">
+    <div class="col-4">
+        <div class="card">
+            <img class="card-img-top" src="{{ vich_uploader_asset(barbecue, 'pictureFile') }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ barbecue.model }}</h5>
+                <p class="card-text">{{ barbecue.description }}</p>
+                <div class="properties">
+                    {% for prop in barbecue.properties %}
+                    <span class="badge badge-info">{{ prop }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-8">
+        <div class="card">
+            <div class="card-body">
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <div class="text-center">
+                    <input type="submit" class="btn btn-primary" value="Rentar" />
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block stylesheets %}
+{{ encore_entry_link_tags('barbecue-find') }}
+{% endblock %}
+
+{% block javascripts %}
+{{ encore_entry_script_tags('barbecue-find') }}
+{% endblock %}

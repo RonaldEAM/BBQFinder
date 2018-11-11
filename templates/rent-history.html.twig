@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+<div class="row my-3 justify-content-center">
+    {% for rent in rents %}
+    <div class="col-8 {% if not loop.first%} mt-4 {% endif %}">
+        <div class="card">
+            <div class="row">
+                <div class="col-4">
+                    <img class="card-img-top" src="{{ vich_uploader_asset(rent.barbecue, 'pictureFile') }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ rent.barbecue.model }}</h5>
+                        <p class="card-text">{{ rent.barbecue.description }}</p>
+                        <div class="properties">
+                            {% for prop in rent.barbecue.properties %}
+                            <span class="badge badge-info">{{ prop }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-8 py-3">
+                    <h5 class="card-title">Información de la renta:</h5>
+                    <dl class="row">
+                        <dt class="col-4">Fecha de alquiler:</dt>
+                        <dd class="col-8">{{ rent.date|date("d/m/Y") }}</dd>
+                    </dl>
+                    <h5 class="card-title">Información de contacto:</h5>
+                    <dl class="row">
+                        <dt class="col-4">Dueño de la barbacoa:</dt>
+                        <dd class="col-8">{{ rent.barbecue.owner.username }}</dd>
+                        <dt class="col-4">Correo:</dt>
+                        <dd class="col-8">{{ rent.renter.email }}</dd>
+                        <dt class="col-4">Teléfono:</dt>
+                        <dd class="col-8">{{ rent.renter.phone }}</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('build/rent-history.css') }}">
+{% endblock %}

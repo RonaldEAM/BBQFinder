@@ -6,25 +6,34 @@
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-    
+
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
                 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                    <li class="nav-item">
-                        <a href="{{ path('barbecue_publish') }}" class="btn btn-outline-light">Publica una barbacoa</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('fos_user_security_logout') }}">
-                            Cerrar sesión
-                        </a>
-                    </li>
+                <li class="nav-item">
+                    <a href="{{ path('barbecue_find', {'country': app.user.country, 'zipCode': app.user.zipCode}) }}"
+                        class="btn btn-primary">Encuentra una barbacoa</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ path('barbecue_publish') }}" class="btn btn-outline-light">Publica una barbacoa</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('rent_history') }}">
+                        Rentas
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('fos_user_security_logout') }}">
+                        Cerrar sesión
+                    </a>
+                </li>
                 {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('fos_user_security_login') }}">Iniciar sesión</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('fos_user_registration_register') }}">Registro</a>
-                    </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('fos_user_security_login') }}">Iniciar sesión</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('fos_user_registration_register') }}">Registro</a>
+                </li>
                 {% endif %}
             </ul>
         </div>

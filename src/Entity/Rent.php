@@ -7,8 +7,8 @@ use DateTime;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\Rent")
- * @UniqueEntity({"renter", "barbecue", "date"})
+ * @ORM\Entity(repositoryClass="App\Repository\RentRepository")
+ * @UniqueEntity(fields={"barbecue", "date"}, message="Esta fecha ya ha sido reservada.")
  */
 class Rent
 {
@@ -40,6 +40,12 @@ class Rent
      */
     protected $date;
 
+    public function __construct(User $user, Barbecue $barbecue)
+    {
+        $this->renter = $user;
+        $this->barbecue = $barbecue;
+    }
+
     public function getId(): int
     {
         return $this->id;
@@ -69,7 +75,7 @@ class Rent
         return $this;
     }
 
-    public function getDate(): DateTime
+    public function getDate(): ?DateTime
     {
         return $this->date;
     }

@@ -3,13 +3,25 @@
 namespace App\Controller;
 
 use App\Entity\Barbecue;
+use App\Entity\Rent;
 use App\Form\BarbecueType;
+use App\Form\RentType;
+use DateTime;
+use Doctrine\ORM\EntityManagerInterface; 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class BarbecueController extends AbstractController {
+class BarbecueController extends AbstractController
+{
+    /** @var EntityManagerInterface */
+    protected $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
 
     /**
      * @Route("/barbecue/publish", name="barbecue_publish")
@@ -23,16 +35,67 @@ class BarbecueController extends AbstractController {
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($barbecue);
-            $entityManager->flush();
+            $this->entityManager->persist($barbecue);
+            $this->entityManager->flush();
 
-            $this->addFlash('success', 'Yay, you just registered a new barbecue');
+            $this->addFlash('success', 'Barbacoa publicada exitosamente.');
+
+            $this->redirectToRoute('barbecue_find', [
+                'country' => $this->getUser()->getCountry(),
+                'zipCode' => $this->getUser()->getZipCode(),
+            ]);
         }
 
         return $this->render('barbecue-publish.html.twig', [
             'country' => $user->getCountry(),
             'zipCode' => $user->getZipCode(),
+        ]);
+    }
+
+    /**
+     * @Route("/barbecue/{country}/{zipCode}", name="barbecue_find")
+     */
+    public function findBarbecues(string $country, string $zipCode)
+    {
+        $barbecues = $this->getDoctrine()
+            ->getRepository(Barbecue::class)
+            ->findBy(['zipCode' => $zipCode]);
+
+        return $this->render('barbecue-find.html.twig', [
+            'country' => $country,
+            'zipCode' => $zipCode,
+            'barbecues' => $barbecues,
+        ]);
+    }
+
+    /**
+     * @Route("/barbecue/{id}", name="barbecue_rent")
+     */
+    public function rentBarbecue(Request $request, string $id)
+    {
+        $barbecue = $this->getDoctrine()
+            ->getRepository(Barbecue::class)
+            ->findOneBy(['id' => $id]);
+
+        $this->denyAccessUnlessGranted('rent', $barbecue);
+
+        $rent = new Rent($this->getUser(), $barbecue);
+        $form = $this->createForm(RentType::class, $rent);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->entityManager->persist($rent);
+            $this->entityManager->flush();
+
+            $this->addFlash('success', 'Barbacoa rentada exitosamente.');
+
+            $this->redirectToRoute('rent_history');
+        }
+
+        return $this->render('barbecue-rent.html.twig', [
+            'barbecue' => $barbecue,
+            'form' => $form->createView(),
         ]);
     }
 }

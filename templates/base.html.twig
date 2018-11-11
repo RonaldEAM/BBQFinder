@@ -14,13 +14,19 @@
     {% endblock %}
 
     {% block body %}
+    
+    
+
+    </div>
         {% if app.request.hasPreviousSession %}
             {% for type, messages in app.session.flashBag.all %}
+                <div class="container mt-2 text-center">
                 {% for message in messages %}
-                    <div class="{{ type }}">
+                    <div class="alert alert-{{ type }}" role="alert">
                         {{ message|trans({}, 'FOSUserBundle') }}
                     </div>
                 {% endfor %}
+                </div>
             {% endfor %}
         {% endif %}
         <div class="container mt-5">

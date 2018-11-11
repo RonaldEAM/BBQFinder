@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Barbacoas cerca de tí:</h5>
+                <div id="map"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row my-3">
+    {% for barbecue in barbecues %}
+    <div class="col-4">
+        <div class="card">
+            <img class="card-img-top" src="{{ vich_uploader_asset(barbecue, 'pictureFile') }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ barbecue.model }}</h5>
+                <p class="card-text">{{ barbecue.description }}</p>
+                <div class="properties">
+                    {% for prop in barbecue.properties %}
+                    <span class="badge badge-info">{{ prop }}</span>
+                    {% endfor %}
+                </div>
+                {% if barbecue.owner != app.user %}
+                <a href="{{ path('barbecue_rent', {'id': barbecue.id}) }}" class="btn btn-primary float-right">Rentar</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block stylesheets %}
+{{ encore_entry_link_tags('barbecue-find') }}
+{% endblock %}
+
+{% block javascripts %}
+{{ encore_entry_script_tags('barbecue-find') }}
+<script>
+    function initMap() {
+        var geocoder = new google.maps.Geocoder();
+
+        var country = '{{ country }}';
+        var zipCode = '{{ zipCode }}';
+        var address = country + ' zip code ' + zipCode;
+
+        geocoder.geocode({
+            'address': address
+        }, function (results, status) {
+            if (status == 'OK') {
+                setUpLocation(results[0].geometry.location);
+            } else {
+                console.log(status);
+            }
+        });
+    }
+
+    function setUpLocation(location) {
+        var locations = [
+            {% for barbecue in barbecues %}
+            { lat: {{ barbecue.locationLat }}, lng: {{ barbecue.locationLng }} } {% if not loop.last %}, {% endif %}
+            {% endfor %}
+        ];
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 15,
+            center: location
+        });
+
+        locations.forEach(function (location) {
+            new google.maps.Marker({
+                position: location,
+                map: map,
+            });
+        });
+    }
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key={{ maps_api_key }}&callback=initMap">
+</script>
+{% endblock %}

@@ -15,3 +15,7 @@ body {
 .navbar-dark .navbar-nav .nav-link {
     color: $white;
 }
+
+.nav-item:not(:last-child) {
+    margin-right: 0.5rem;
+}

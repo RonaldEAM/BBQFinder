@@ -24,6 +24,12 @@ class User extends BaseUser
      * @ORM\Column(type="string", length=255)
      * @var string
      */
+    protected $phone;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @var string
+     */
     protected $country;
 
     /**
@@ -49,6 +55,18 @@ class User extends BaseUser
         parent::__construct();
         $this->ownedBarbecues = new ArrayCollection();
         $this->rents = new ArrayCollection();
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(string $phone): self
+    {
+        $this->phone = $phone;
+
+        return $this;
     }
 
     public function getCountry(): ?string
